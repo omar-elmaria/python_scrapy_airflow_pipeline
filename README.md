@@ -1,8 +1,8 @@
 # python_scrapy_airflow_pipeline
-This repo contains a full-fledged Python-based script that scrapes a JavaScript-rendered website (homzmart.com/en), cleans the data, and pushes the results to a cloud-based database. The workflow is orchestrated on Airflow to run automatically
+This repo contains a full-fledged Python-based script that scrapes a JavaScript-rendered website ```homzmart.com/en```, cleans the data, and pushes the results to a cloud-based database. The workflow is orchestrated on Airflow to run automatically without any human intervention
 
 # 1. Objective of the Project
-The goal of the project was to scrape an E-commerce website that sells furniture online (homzmart.com/en) to get insights about the company's **product assortment** and **pricing**. The aim was to create a table containing all kinds of information about the products on the website including:
+The goal of the project was to scrape an E-commerce website that sells furniture online ```homzmart.com/en``` to get insights about the company's **product assortment** and **pricing**. The aim was to create a table containing all kinds of information about the products on the website including:
 - **Product name** + **Product Display Page** (PDP) URL
 - **Category name** of the product + **Category URL**
 - **Sub-category name** of the product + **Sub-category URL**
@@ -27,7 +27,7 @@ The website has **4 sections**:
 2. The **Category Pages** --> These are pages that contain **all** products under a particular category (e.g., Beds, Sofas, Storage, etc.)
   - An example of a category page (Beds) --> ```https://homzmart.com/en/products/3#1```
   - These pages were used to obtain the **sub-category names** and **links**
-3. The **Sub-category Pages** --> These are pages that contain **all** products under a particular sub-category (e.g., )
+3. The **Sub-category Pages** --> These are pages that contain **all** products under a particular sub-category (e.g., Future Furniture Bed Beige FF.A022)
   - An example of a sub-category page under Beds (King Beds) --> ```https://homzmart.com/en/products/4288#1```
   - These pages were used to obtain the **product page links**
 4. The **Product Pages**
