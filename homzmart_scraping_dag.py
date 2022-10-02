@@ -27,7 +27,7 @@ def delete_tables():
     from homzmart_scraping.homzmart_scraping.spiders.homzmart_delete_tables import DeleteTables
 
 def delete_json_files():
-    path_to_json_airflow = '/opt/airflow/python_scrapy_airflow_project/homzmart_scraping/data'
+    path_to_json_airflow = '/opt/airflow/python_scrapy_airflow_pipeline/homzmart_scraping/data'
     json_files = [pos_json for pos_json in os.listdir(path_to_json_airflow) if pos_json.endswith('.json')] # List all JSON files in the data directory
     for i in json_files:
         os.remove(path_to_json_airflow + '/' + i)
@@ -54,7 +54,7 @@ home_page_task = PythonOperator(
 file_sensor_task_home_page = FileSensor(
     task_id = 'file_sense_home_page',
     fs_conn_id = 'json_files_directory', # Must be configured in the Airflow UI via Admin --> Connections
-    filepath = '/opt/airflow/python_scrapy_airflow_project/homzmart_scraping/data/Output_Home_Page.json',
+    filepath = '/opt/airflow/python_scrapy_airflow_pipeline/homzmart_scraping/data/Output_Home_Page.json',
     mode = 'poke', # Keep checking until true or a timeout occurs
     poke_interval = 60, # Check for the existence of the JSON file every 60 seconds
     timeout = 300, # Fail the task if the file does not exist after 5 minutes (i.e., 5 trials)
@@ -70,7 +70,7 @@ cat_page_task = PythonOperator(
 file_sensor_task_cat_page = FileSensor(
     task_id = 'file_sense_cat_page',
     fs_conn_id = 'json_files_directory',
-    filepath = '/opt/airflow/python_scrapy_airflow_project/homzmart_scraping/data/Output_Cat_Page.json',
+    filepath = '/opt/airflow/python_scrapy_airflow_pipeline/homzmart_scraping/data/Output_Cat_Page.json',
     mode = 'poke',
     poke_interval = 60,
     timeout = 300, 
@@ -86,7 +86,7 @@ subcat_page_task = PythonOperator(
 file_sensor_task_subcat_page = FileSensor(
     task_id = 'file_sense_subcat_page',
     fs_conn_id = 'json_files_directory',
-    filepath = '/opt/airflow/python_scrapy_airflow_project/homzmart_scraping/data/Output_SubCat_Page.json',
+    filepath = '/opt/airflow/python_scrapy_airflow_pipeline/homzmart_scraping/data/Output_SubCat_Page.json',
     mode = 'poke',
     poke_interval = 60,
     timeout = 300, 
@@ -102,7 +102,7 @@ prod_page_task = PythonOperator(
 file_sensor_task_prod_page = FileSensor(
     task_id = 'file_sense_prod_page',
     fs_conn_id = 'json_files_directory',
-    filepath = '/opt/airflow/python_scrapy_airflow_project/homzmart_scraping/data/Output_Prod_Page.json',
+    filepath = '/opt/airflow/python_scrapy_airflow_pipeline/homzmart_scraping/data/Output_Prod_Page.json',
     mode = 'poke',
     poke_interval = 60,
     timeout = 300, 
