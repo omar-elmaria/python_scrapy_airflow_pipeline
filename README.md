@@ -72,12 +72,12 @@ DATA_FOLDER_PATH_AIRFLOW="{INSERT_VIRTUAL_PATH_TO_FOLDER_CONTAINING_THE_JSON_FIL
 ```
 The local path can look something like this:
 ```"I:\scraping_gigs\python_scrapy_airflow_project\homzmart_scraping\data"```.
-Note that I used backslashes because I am using the Windows OS
+Note that I used **backslashes** because I am using the Windows OS
 
 The virtual path is **ONLY required for the Airflow step**, so you can skip it you don't want to orchestrate the process. That said, it can look something like this:
 ```"/opt/airflow/python_scrapy_airflow_project/homzmart_scraping/data"```
 
-Note that I used forwardslashes here because the Airflow container is usually created in a Linux environment. Also, keep in mind that the ending of both paths are the **same**. You are simply **cloning** the data folder on your local computer to the Airflow environment. If you want more elaboration on this step, please check out my [guide](https://github.com/omar-elmaria/airflow_installation_instructions) on how to **install Airflow locally on your machine** and navigate to step 11 under section 1.
+Note that I used **forwardslashes** here because the Airflow container is usually created in a **Linux environment**. Also, keep in mind that the **ending of both paths** are the **same**. You are simply **cloning** the data folder on your local computer to the Airflow environment. If you want more elaboration on this step, please check out my [guide](https://github.com/omar-elmaria/airflow_installation_instructions) on how to **install Airflow locally on your machine** and navigate to step 11 under section 1.
 
 **Step 9:** Add a new environment variable to ```PYTHONPATH``` pointing to the location of your ```python_scrapy_airflow_pipeline``` project folder.
 
