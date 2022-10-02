@@ -177,10 +177,10 @@ These two commands **remove the Airflow image** and **re-build** it using the ne
     - ```docker-compose down```
     - ```docker-compose up -d```
 
-- If you face a ModuleNotFound Error, it is usually because you are importing modules from a path that is not recognized by Python. To remedy that, you will need to add that path to an environment variable pointing to the path **from which you start searching and importing your module**. The environment variable should be added to the following places:
-  - **On your operating system** --> Check step 9 under section 2.1
-  - **In the Dockerfile** --> Check step 1 under section 2.2
-  - Possibly also a **new volume** in the docker-compose file if you are importing from a folder that is different from ```./dags```, ```./plugins```, or ```./logs``` --> Check step 3 under section 2.2
+- If you face a ```ModuleNotFound``` error, it is usually because you are importing modules from a path that is not recognized by Python. To remedy that, you will need to add that path to an environment variable pointing to the path **from which you start searching and importing your module**. The environment variable should be added to the following places:
+  - **On your operating system** --> Check **step 9** under **section 2.1**
+  - **In the Dockerfile** --> Check **step 1** under **section 2.2**. This is only necessary if you are using Airflow in the process
+  - Possibly also a **new volume** in the docker-compose file if you are importing from a folder that is different from ```./dags```, ```./plugins```, or ```./logs``` --> Check **step 3** under **section 2.2**. This is only necessary if you are using Airflow in the process
 
 # 3. Questions?
 If you have any questions or wish to build a scraper for a particular use case, feel free to contact me on [LinkedIn](https://www.linkedin.com/in/omar-elmaria/)
