@@ -71,11 +71,11 @@ DATA_FOLDER_PATH_LOCAL="{INSERT_LOCAL_PATH_TO_FOLDER_CONTAINING_THE_JSON_FILES_G
 DATA_FOLDER_PATH_AIRFLOW="{INSERT_VIRTUAL_PATH_TO_FOLDER_CONTAINING_THE_JSON_FILES_GENERATED_FROM_SCRAPING}"
 ```
 The local path can look something like this:
-```"I:\scraping_gigs\python_scrapy_airflow_project\homzmart_scraping\data"```.
+```"I:\scraping_gigs\python_scrapy_airflow_pipeline\homzmart_scraping\data"```.
 Note that I used **backslashes** because I am using the Windows OS
 
 The virtual path is **ONLY required for the Airflow step**, so you can skip it you don't want to orchestrate the process. That said, it can look something like this:
-```"/opt/airflow/python_scrapy_airflow_project/homzmart_scraping/data"```
+```"/opt/airflow/python_scrapy_airflow_pipeline/homzmart_scraping/data"```
 
 Note that I used **forwardslashes** here because the Airflow container is usually created in a **Linux environment**. Also, keep in mind that the **ending of both paths** are the **same**. You are simply **cloning** the data folder on your local computer to the Airflow environment. If you want more elaboration on this step, please check out my [guide](https://github.com/omar-elmaria/airflow_installation_instructions) on how to **install Airflow locally on your machine** and navigate to step 11 under section 1.
 
@@ -144,7 +144,9 @@ It is generally recommended to have one external directory to host the DAGs from
 ![image](https://user-images.githubusercontent.com/98691360/193469052-46ba942e-3e83-4d23-aca4-c78dfd17f139.png)
 
 - Finally, you will need to add a **new volume** to the docker-compose file under the ```volumes:``` section like this
-    - ```- {INSERT_LOCAL_PATH_TO_PYTHON_SCRAPY_AIRFLOW_PIPELINE_PROJECT}:/opt/airflow/python_scrapy_airflow_pipeline```
+```
+- {INSERT_LOCAL_PATH_TO_PYTHON_SCRAPY_AIRFLOW_PIPELINE_PROJECT}:/opt/airflow/python_scrapy_airflow_pipeline
+```
 
 - Now, you are ready to launch Airflow, go to your browser and type in ```localhost:8080``` and enter the credentials
   - **username:** airflow
