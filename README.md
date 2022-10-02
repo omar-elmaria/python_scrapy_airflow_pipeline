@@ -137,7 +137,7 @@ AIRFLOW_IMAGE_NAME=apache/airflow:2.3.4
 AIRFLOW_UID=50000
 AIRFLOW__SMTP__SMTP_PASSWORD={GOOGLE_PASSWORD_WITHOUT_THE_CURLY_BRACES}
 ```
-To generate the ```GOOGLE_PASSWORD``` and be able to send emails via Airflow, please follow the steps in this [guide](https://naiveskill.com/send-email-from-airflow/)
+To generate the ```GOOGLE_PASSWORD``` and be able to send emails via Airflow, please follow the steps in this [guide](https://naiveskill.com/send-email-from-airflow/). If you don't want to send a success email at the end of your Airflow pipeline, you can **delete** the last line in the .env file
 
 It is generally recommended to have one external directory to host the DAGs from **all of your projects**. I call it **airflow-local** and it looks something like this
 
