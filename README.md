@@ -114,7 +114,7 @@ You can also ignore the ```test_crawlera.py``` and ```test_scraperapi.py```. The
 **N.B.** I purposely adjusted the script to only scrape a small portion of the website because the website has **more than 60,000 pages** and the entire process takes **several hours to complete**. The entire script should run in under 5 minutes.
 
 ## 2.2 Building a pipeline from the Scrapy Spiders
-The pre-requisite to this section is installing Airflow on your local machine. Please follow the steps explained in **section #1** of my other [guide](https://github.com/omar-elmaria/airflow_installation_instructions) excluding **step 7** and come back to this part once you're done.
+The pre-requisite to this section is installing **Docker** and **Airflow** on your local machine. Please follow the steps explained in **section #1** of my other [guide](https://github.com/omar-elmaria/airflow_installation_instructions) excluding **step 7** and come back to this part once you're done.
 
 - After installing Airflow, you will need to add the following commands to a ```Dockerfile```:
 ```
@@ -133,16 +133,50 @@ AIRFLOW_IMAGE_NAME=apache/airflow:2.3.4
 AIRFLOW_UID=50000
 AIRFLOW__SMTP__SMTP_PASSWORD={GOOGLE_PASSWORD_WITHOUT_THE_CURLY_BRACES}
 ```
-  To generate the ```GOOGLE_PASSWORD``` and be able to send emails via Airflow, please follow the steps in this [guide](https://naiveskill.com/send-email-from-airflow/)
+To generate the ```GOOGLE_PASSWORD``` and be able to send emails via Airflow, please follow the steps in this [guide](https://naiveskill.com/send-email-from-airflow/)
 
-  It is generally recommended to have one external directory to host the DAGs from **all of your projects**. I call it airflow-local and it looks something like this
+It is generally recommended to have one external directory to host the DAGs from **all of your projects**. I call it **airflow-local** and it looks something like this
 
-  ![image](https://user-images.githubusercontent.com/98691360/193469052-46ba942e-3e83-4d23-aca4-c78dfd17f139.png)
+![image](https://user-images.githubusercontent.com/98691360/193469052-46ba942e-3e83-4d23-aca4-c78dfd17f139.png)
 
 - Finally, you will need to add a **new volume** to the docker-compose file under the ```volumes:``` section like this
-```- {INSERT_LOCAL_PATH_TO_PYTHON_SCRAPY_AIRFLOW_PIPELINE_PROJECT_FOLDER_WITHOUT_CURLY_BRACES}:/opt/airflow/python_scrapy_airflow_pipeline```
+```- {INSERT_LOCAL_PATH_TO_PYTHON_SCRAPY_AIRFLOW_PIPELINE_PROJECT}:/opt/airflow/python_scrapy_airflow_pipeline```
 
+- Now, you are ready to launch Airflow, go to your browser and type in ```localhost:8080``` and enter the credentials
+  - **username:** airflow
+  - **password:** airflow
 
+You should land on a page that looks like this
+
+![image](https://user-images.githubusercontent.com/98691360/193469245-71d5798e-efcb-48e0-8488-55aa50474ef6.png)
+
+The DAG itself will look something like this
+
+![image](https://user-images.githubusercontent.com/98691360/193469308-3d920b4b-ed5e-4bcd-9a86-e5a6e222cd15.png)
+
+- Before triggering the DAG, you will need to **set a new connection** for the file sensor steps. To do that, go to ```Admin``` --> ```Connections```, and click on the **plus** sign. Enter a new connection of type **"File (path)"** and enter the path to ```data``` folder in the Airflow environment. Typically, you will **not** need to change the path shown in the screenshot if you followed the steps of this guide
+
+![image](https://user-images.githubusercontent.com/98691360/193469402-98cfc31b-937d-48bb-83c7-759516ac6089.png)
+
+- Now, you are ready to fire up the DAG. Navigate to the **grid view**, click on the **play** button, and then **Trigger DAG**. The steps should be executed sequentially as shown in the screenshot below. The JSON files will gradually appear in your local directory
+
+![image](https://user-images.githubusercontent.com/98691360/193469898-6c7bf612-ca5e-47b1-b593-41720df63914.png)
+
+## 2.3 Things to Keep in Mind
+- If you change anything in the ```Dockerfile``` (e.g., add more dependencies), you will need to re-build the docker image. Run the commands below in your terminal **from within the directory that hosts the Airflow folder structure**
+```docker-compose down --volumes --rmi all```
+```docker-compose up -d```
+
+These two commands **remove the Airflow image** and **re-build** it using the new parameters in the **Dockerfile** and **docker-compose** file
+
+- If you change anything in the ```docker-compose``` file (e.g., add a new volume), you don't need to re-build the image. It is enough to stop the **docker containers** and **spin them up again** by running the following commands, again from within the directory that hosts the Airflow folder structure
+```docker-compose down```
+```docker-compose up -d```
+
+- If you face a ModuleNotFound Error, it is usually because you are importing modules from a path that is not recognized by Python. To remedy that, you will need to add that path to an environment variable pointing to the path **from which you start searching and importing your module**. The environment variable should be added to the following places:
+  - **On your operating system** --> Check step 9 under section 2.1
+  - **In the Dockerfile** --> Check step 1 under section 2.2
+  - Possibly also a **new volume** in the docker-compose file if you are importing from a folder that is different from ```./dags```, ```./plugins```, or ```./logs``` --> Check step 3 under section 2.2
 
 # 3. Questions?
 If you have any questions or wish to build a scraper for a particular use case, feel free to contact me on [LinkedIn](https://www.linkedin.com/in/omar-elmaria/)
