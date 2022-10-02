@@ -71,8 +71,8 @@ DATA_FOLDER_PATH_LOCAL="{INSERT_LOCAL_PATH_TO_FOLDER_CONTAINING_THE_JSON_FILES_G
 DATA_FOLDER_PATH_AIRFLOW="{INSERT_VIRTUAL_PATH_TO_FOLDER_CONTAINING_THE_JSON_FILES_GENERATED_FROM_SCRAPING}"
 ```
 The local path can look something like this:
-```"I:\scraping_gigs\python_scrapy_airflow_project\homzmart_scraping\data"```
-Note that I used backslashes because I using the Windows OS
+```"I:\scraping_gigs\python_scrapy_airflow_project\homzmart_scraping\data"```.
+Note that I used backslashes because I am using the Windows OS
 
 The virtual path is **ONLY required for the Airflow step**, so you can skip it you don't want to orchestrate the process. That said, it can look something like this:
 ```"/opt/airflow/python_scrapy_airflow_project/homzmart_scraping/data"```
