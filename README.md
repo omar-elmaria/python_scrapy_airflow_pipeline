@@ -168,8 +168,8 @@ The DAG itself will look something like this
 
 ## 2.3 Things to Keep in Mind
 - If you change anything in the ```Dockerfile``` (e.g., add more dependencies), you will need to re-build the docker image. Run the commands below in your terminal **from within the directory that hosts the Airflow folder structure**
-```docker-compose down --volumes --rmi all```
-```docker-compose up -d```
+    - ```docker-compose down --volumes --rmi all```
+    - ```docker-compose up -d```
 
 These two commands **remove the Airflow image** and **re-build** it using the new parameters in the **Dockerfile** and **docker-compose** file
 
