@@ -79,11 +79,11 @@ The virtual path is **ONLY required for the Airflow step**, so you can skip it y
 
 Note that I used **forwardslashes** here because the Airflow container is usually created in a **Linux environment**. Also, keep in mind that the **ending of both paths** are the **same**. You are simply **cloning** the data folder on your local computer to the Airflow environment. If you want more elaboration on this step, please check out my [guide](https://github.com/omar-elmaria/airflow_installation_instructions) on how to **install Airflow locally on your machine** and navigate to step 11 under section 1.
 
-**Step 9:** Add a new environment variable to ```PYTHONPATH``` pointing to the location of your ```python_scrapy_airflow_pipeline``` project folder.
+**Step 9:** Add a new environment variable to ```PYTHONPATH``` pointing to the location of your ```python_scrapy_airflow_pipeline``` project folder. This screenshot demonstrates the process on the **Windows operating system**
 
 ![image](https://user-images.githubusercontent.com/98691360/193468732-428f0d19-a0b7-469d-bdbb-39ebbeca7b31.png)
 
-The new value that will be added under the Path variable is --> %PYTHONPATH%
+The new value that will be added under the Path variable is --> ```%PYTHONPATH%```
 
 N.B. You will need to restart your computer for this change to come into effect
 
