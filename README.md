@@ -164,6 +164,8 @@ The DAG itself will look something like this
 
 ![image](https://user-images.githubusercontent.com/98691360/193469402-98cfc31b-937d-48bb-83c7-759516ac6089.png)
 
+```{"path":"opt/airflow/python_scrapy_airflow_pipeline/homzmart_scraping/data"}```
+
 - Now, you are ready to fire up the DAG. Navigate to the **grid view**, click on the **play** button, and then **Trigger DAG**. The steps should be executed sequentially as shown in the screenshot below. The JSON files will gradually appear in your local directory
 
 ![image](https://user-images.githubusercontent.com/98691360/193469898-6c7bf612-ca5e-47b1-b593-41720df63914.png)
