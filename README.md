@@ -44,7 +44,7 @@ Since the crawling process had to be done repeatedly, it was necessary to orches
 This section is split into two parts. Section one explains how to replicate the crawling code **without the Airflow orchestration**. Section two demonstrates how to create a **pipeline out of the scrapy spiders**. The Airflow pipeline uses the **Python Operator**, **Email Operator**, and **File Sensor** to orchestrate the process.
 
 # 2.1 Reproducing the Scraping Code Without the Airflow Orchestration
-- **Step 1:** Clone the repo using this command in your terminal git clone https://github.com/omar-elmaria/python_scrapy_airflow_pipeline.git
+**Step 1:** Clone the repo using this command in your terminal git clone https://github.com/omar-elmaria/python_scrapy_airflow_pipeline.git
 
 **Step 2:** Create a virtual environment by running this command python -m venv venv_scraping
 
@@ -55,3 +55,56 @@ This section is split into two parts. Section one explains how to replicate the 
 **Step 5:** Ctrl-Shift-P to view the command palette in VSCode --> Python: Select Interpreter --> Browse to the Python executable in your virtual environment so that the Jupyter notebook uses the correct Python interpreter
 
 **Step 6:** Run this command in the terminal to install the required dependencies pip install -r requirements.txt
+
+**Step 7:** This website is dynamically rendered by Java Script, so we have three options to scrape it
+- scrapy-playwright
+- scrapy-splash
+- Proxy service with JS-rendering capability (e.g., [ScraperAPI](https://www.scraperapi.com/documentation/python/))
+
+Since this is a **high volume** scraping job, I opted for **option #3**. My preferred service is ScraperAPI. You can sign up easily in a couple of minutes with your Email and get an **API key with 5000 API credits**. This should more than suffice for testing purposes.
+
+**Step 8:** Create a .env file with the following parameters **without the curly braces**
+```
+SCRAPER_API_KEY={API_KEY_FROM_SCRAPER_API}
+DATA_FOLDER_PATH_LOCAL="{LOCAL_PATH_TO_FOLDER_CONTAINING_THE_JSON_FILES_GENERATED_FROM_SCRAPING}"
+DATA_FOLDER_PATH_AIRFLOW="{VIRTUAL_PATH_TO_FOLDER_CONTAINING_THE_JSON_FILES_GENERATED_FROM_SCRAPING}"
+```
+The local path can look something like this:
+```"I:\scraping_gigs\python_scrapy_airflow_project\homzmart_scraping\data"```
+Note that I used backslashes because I using the Windows OS
+
+The virtual path is **ONLY required for the Airflow step**, so you can skip it you don't want to orchestrate the process. That said, it can look something like this:
+```"/opt/airflow/python_scrapy_airflow_project/homzmart_scraping/data"```
+
+Note that I used forwardslashes here because the Airflow container is usually created in a Linux environment. Also, keep in mind that the ending of both paths are the **same**. You are simply **cloning** the data folder on your local computer to the Airflow environment. If you want more elaboration on this step, please check out my [guide](https://github.com/omar-elmaria/airflow_installation_instructions) on how to **install Airflow locally on your machine** and navigate to step 11 under section 1.
+
+**Step 9:** Delete the JSON files from the data folder to start on a clean slate
+
+**Step 10:** Now, you are ready to scrape the website. The order of running the scripts should be as follows:
+- ```homzmart_home_page_spider.py```
+- ```homzmart_cat_page_spider.py```
+- ```homzmart_subcat_page_spider.py```
+- ```homzmart_prod_page_spider.py```
+
+You can ignore the last two spiders ```homzmart_combine_jsons.py``` and ```homzmart_delete_tables.py```. These scripts are used to push the scraped data to an **Airtable** database hosted on the cloud. You will **not** be able to replicate these steps because you will not have the API keys required to access these private databases.
+
+You can also ignore the ```test_crawlera.py``` and ```test_scraperapi.py```. These test scripts were created to play around with the most popular Proxy API services on the market, **Zyte Smart Proxy Manager (Formerly Crawlera)** and **ScraperAPI**
+
+**Step 11.1:** The output of the ```homzmart_home_page_spider.py``` script should look something like this
+
+![image](https://user-images.githubusercontent.com/98691360/193467592-0a54c4b5-4b4e-4293-b3d4-03228509de19.png)
+
+**Step 11.2:** The output of the ```homzmart_cat_page_spider.py``` script should look something like this. Please note that the screenshot is truncated to preserve space
+
+![image](https://user-images.githubusercontent.com/98691360/193467614-a351c680-23b0-4685-b880-ba1c41e435c3.png)
+
+**Step 11.3:** The output of the ```homzmart_subcat_page_spider.py``` script should look something like this. Please note that the screenshot is truncated to preserve space
+
+![image](https://user-images.githubusercontent.com/98691360/193467661-c3e5fc04-d605-48d6-aeb2-33d42f777d15.png)
+
+**Step 11.4:** The output of the ```homzmart_prod_page_spider.py``` script should look something like this. Please note that the screenshot is truncated to preserve space
+
+![image](https://user-images.githubusercontent.com/98691360/193467675-ea1df684-076a-4a3d-b888-dc0bb85670d6.png)
+
+**N.B.** I purposely adjusted the script to only scrape a small portion of the website because the website has **more than 60,000 pages** and the entire process takes **several hours to complete**. The entire script should run in under 5 minutes.
+
