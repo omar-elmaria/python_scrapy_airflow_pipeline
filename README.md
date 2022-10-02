@@ -83,6 +83,10 @@ Note that I used forwardslashes here because the Airflow container is usually cr
 
 ![image](https://user-images.githubusercontent.com/98691360/193468732-428f0d19-a0b7-469d-bdbb-39ebbeca7b31.png)
 
+The new value that will be added under the Path variable is --> %PYTHONPATH%
+
+N.B. You will need to restart your computer for this change to come into effect
+
 **Step 10:** Delete the JSON files from the data folder to start on a clean slate
 
 **Step 11:** Now, you are ready to scrape the website. The order of running the scripts should be as follows:
