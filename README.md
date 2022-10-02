@@ -23,16 +23,16 @@ The website employed several **throttling** and **anti-bot** mechanisms and its 
 
 The website has **4 sections**:
 1. The **Home Page** --> This is the **landing page** of the website ```https://homzmart.com/en```
-  - This page was used to scrape the **category names** and **links**
+    - This page was used to scrape the **category names** and **links**
 2. The **Category Pages** --> These are pages that contain **all** products under a particular category (e.g., Beds, Sofas, Storage, etc.)
-  - An example of a category page (Beds) --> ```https://homzmart.com/en/products/3#1```
-  - These pages were used to obtain the **sub-category names** and **links**
+    - An example of a category page (Beds) --> ```https://homzmart.com/en/products/3#1```
+    - These pages were used to obtain the **sub-category names** and **links**
 3. The **Sub-category Pages** --> These are pages that contain **all** products under a particular sub-category (e.g., Future Furniture Bed Beige FF.A022)
-  - An example of a sub-category page under Beds (King Beds) --> ```https://homzmart.com/en/products/4288#1```
-  - These pages were used to obtain the **product page links**
+    - An example of a sub-category page under Beds (King Beds) --> ```https://homzmart.com/en/products/4288#1```
+    - These pages were used to obtain the **product page links**
 4. The **Product Pages**
-  - An example of a product page under King Beds --> ```https://homzmart.com/en/product-details/FF.A022```
-  - These pages were used to obtain all the remaining information from the list above
+    - An example of a product page under King Beds --> ```https://homzmart.com/en/product-details/FF.A022```
+    - These pages were used to obtain all the remaining information from the list above
  
 The result of the pipeline after it finishes execution looks as follows (only a snippet of the table is shown because it is huge):
 
