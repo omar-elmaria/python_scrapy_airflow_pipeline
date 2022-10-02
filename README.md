@@ -174,8 +174,8 @@ The DAG itself will look something like this
 These two commands **remove the Airflow image** and **re-build** it using the new parameters in the **Dockerfile** and **docker-compose** file
 
 - If you change anything in the ```docker-compose``` file (e.g., add a new volume), you don't need to re-build the image. It is enough to stop the **docker containers** and **spin them up again** by running the following commands, again from within the directory that hosts the Airflow folder structure
-```docker-compose down```
-```docker-compose up -d```
+    - ```docker-compose down```
+    - ```docker-compose up -d```
 
 - If you face a ModuleNotFound Error, it is usually because you are importing modules from a path that is not recognized by Python. To remedy that, you will need to add that path to an environment variable pointing to the path **from which you start searching and importing your module**. The environment variable should be added to the following places:
   - **On your operating system** --> Check step 9 under section 2.1
