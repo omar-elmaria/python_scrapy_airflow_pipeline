@@ -44,24 +44,25 @@ Since the crawling process had to be done repeatedly, it was necessary to orches
 This section is split into two parts. Section one explains how to replicate the crawling code **without the Airflow orchestration**. Section two demonstrates how to create a **pipeline out of the scrapy spiders**. The Airflow pipeline uses the **Python Operator**, **Email Operator**, and **File Sensor** to orchestrate the process.
 
 # 2.1 Reproducing the Scraping Code Without the Airflow Orchestration
-**Step 1:** Clone the repo using this command in your terminal git clone https://github.com/omar-elmaria/python_scrapy_airflow_pipeline.git
+**Step 1:** **Clone the repo** using this command in your terminal
+```git clone https://github.com/omar-elmaria/about_you_case_study.git```
 
-**Step 2:** Create a virtual environment by running this command python -m venv venv_scraping
+**Step 2:** **Create a virtual environment** by running this command ```python -m venv venv_scraping```
 
-**Step 3:** Activate the virtual environment by typing this source venv_scraping/bin/activate if you are on Mac/Linux or source venv_scraping/Scripts/activate if you are on Windows. You might need to replace the forwardslashes with a backslash if you are on Windows
+**Step 3:** **Activate the virtual environment** by typing this ```source venv_scraping/bin/activate``` if you are on Mac/Linux or ```source venv_scraping/Scripts/activate``` if you are on Windows. You might need to replace the forwardslashes with a backslash if you are on Windows
 
-**Step 4:** Double-check that you are using the correct Python path by typing which python and clicking enter (which python3 on Mac/Linux). It should point to the Python executable in the virtual environment you just created
+**Step 4:** **Double-check that you are using the correct Python path** by typing ```which python``` and clicking enter (```which python3 on Mac/Linux```). It should point to the Python executable in the virtual environment you just created
 
-**Step 5:** Ctrl-Shift-P to view the command palette in VSCode --> Python: Select Interpreter --> Browse to the Python executable in your virtual environment so that the Jupyter notebook uses the correct Python interpreter
+**Step 5:** ```Ctrl-Shift-P``` to **view the command palette in VSCode** --> ```Python: Select Interpreter``` --> **Browse to the Python executable in your virtual environment** so that the Jupyter notebook uses the correct Python interpreter
 
-**Step 6:** Run this command in the terminal to install the required dependencies pip install -r requirements.txt
+**Step 6:** Run this command in the terminal to **install the required dependencies** ```pip install -r requirements.txt```
 
 **Step 7:** This website is dynamically rendered by Java Script, so we have three options to scrape it
-- scrapy-playwright
-- scrapy-splash
-- Proxy service with JS-rendering capability (e.g., [ScraperAPI](https://www.scraperapi.com/documentation/python/))
+- **scrapy-playwright**
+- **scrapy-splash**
+- **Proxy service with JS-rendering capability** (e.g., [ScraperAPI](https://www.scraperapi.com/documentation/python/))
 
-Since this is a **high volume** scraping job, I opted for **option #3**. My preferred service is ScraperAPI. You can sign up easily in a couple of minutes with your Email and get an **API key with 5000 API credits**. This should more than suffice for testing purposes.
+Since this is a **high volume** scraping job, I opted for **option #3**. My preferred service is **ScraperAPI**. You can easily sign up in a couple of minutes with your Email and get an **API key with 5000 API credits**. This should more than suffice for testing purposes.
 
 **Step 8:** Create a .env file with the following parameters **without the curly braces**
 ```
