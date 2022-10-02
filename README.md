@@ -34,7 +34,7 @@ The website has **4 sections**:
     - An example of a product page under King Beds --> ```https://homzmart.com/en/product-details/FF.A022```
     - These pages were used to obtain all the remaining information from the list above
  
-The result of the pipeline after it finishes execution looks as follows (only a snippet of the table is shown because it is huge):
+The result of the pipeline after it is executed looks as follows (only a snippet of the table is shown because it is huge):
 
 ![image](https://user-images.githubusercontent.com/98691360/193466397-25d667ed-8ba1-4ac5-a21e-0aae43e7a2e1.png)
 
