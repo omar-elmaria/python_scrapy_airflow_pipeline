@@ -118,7 +118,7 @@ You can also ignore the ```test_crawlera.py``` and ```test_scraperapi.py```. The
 **N.B.** I purposely adjusted the script to only scrape a small portion of the website because the website has **more than 60,000 pages** and the entire process takes **several hours to complete**. The entire script should run in under 5 minutes.
 
 ## 2.2 Building a pipeline from the Scrapy Spiders
-The pre-requisite to this section is installing **Docker** and **Airflow** on your local machine. Please follow the steps explained in **section #1** of my other [guide](https://github.com/omar-elmaria/airflow_installation_instructions) excluding **step 7** and come back to this part once you're done.
+The pre-requisite to this section is installing **Docker** and **Airflow** on your local machine. Please follow the steps explained in **section #1** of my other [guide](https://github.com/omar-elmaria/airflow_installation_instructions) (excluding **step 7**) and come back to this part once you're done.
 
 - After installing Airflow, you will need to add the following commands to a ```Dockerfile```:
 ```
