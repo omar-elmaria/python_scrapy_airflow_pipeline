@@ -97,7 +97,7 @@ N.B. You will need to **restart your computer** for this change to come into eff
 
 You can ignore the last two scripts ```homzmart_combine_jsons.py``` and ```homzmart_delete_tables.py```. These scripts are used to push the scraped data to an **Airtable** database hosted on the cloud. You will **not** be able to replicate these steps because you will not have the API keys required to access these private databases.
 
-You can also ignore the ```test_crawlera.py``` and ```test_scraperapi.py```. These test scripts were created to play around with the most popular Proxy API services on the market, **Zyte Smart Proxy Manager (Formerly Crawlera)** and **ScraperAPI**
+You can also ignore the ```test_crawlera.py``` and ```test_scraperapi.py```. These test scripts were created to play around with some popular Proxy API services on the market, **Zyte Smart Proxy Manager (Formerly Crawlera)** and **ScraperAPI**
 
 **Step 12.1:** The output of the ```homzmart_home_page_spider.py``` script should look something like this
 
