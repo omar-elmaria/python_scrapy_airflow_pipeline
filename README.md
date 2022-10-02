@@ -85,7 +85,7 @@ Note that I used **forwardslashes** here because the Airflow container is usuall
 
 The new value that will be added under the Path variable is --> ```%PYTHONPATH%```
 
-N.B. You will need to restart your computer for this change to come into effect
+N.B. You will need to **restart your computer** for this change to come into effect
 
 **Step 10:** Delete the JSON files from the data folder to start on a clean slate
 
