@@ -131,7 +131,7 @@ RUN playwright install
 ENV PYTHONPATH="$PYTHONPATH:/opt/airflow/python_scrapy_airflow_pipeline"
 ```
 
-- You will also need to add the following parameters to the **.env file** within the Airflow directory if you haven't already. Note that this might be different from the .env file you used in the first part.
+- You will also need to add the following parameters to a **.env file** within the Airflow directory if you haven't already. Note that this might be different from the .env file you used in the first part of this guide.
 ```
 AIRFLOW_IMAGE_NAME=apache/airflow:2.3.4
 AIRFLOW_UID=50000
