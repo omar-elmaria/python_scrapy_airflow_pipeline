@@ -43,7 +43,7 @@ Since the crawling process had to be done repeatedly, it was necessary to orches
 # 2. Usability and Reproducability
 This section is split into two parts. Section one explains how to replicate the crawling code **without the Airflow orchestration**. Section two demonstrates how to create a **pipeline out of the scrapy spiders**. The Airflow pipeline uses the **Python Operator**, **Email Operator**, and **File Sensor** to orchestrate the process.
 
-# 2.1 Reproducing the Scraping Code Without the Airflow Orchestration
+## 2.1 Reproducing the Scraping Code Without the Airflow Orchestration
 **Step 1:** **Clone the repo** using this command in your terminal
 ```git clone https://github.com/omar-elmaria/about_you_case_study.git```
 
@@ -67,8 +67,8 @@ Since this is a **high volume** scraping job, I opted for **option #3**. My pref
 **Step 8:** Create a .env file with the following parameters **without the curly braces**
 ```
 SCRAPER_API_KEY={API_KEY_FROM_SCRAPER_API}
-DATA_FOLDER_PATH_LOCAL="{LOCAL_PATH_TO_FOLDER_CONTAINING_THE_JSON_FILES_GENERATED_FROM_SCRAPING}"
-DATA_FOLDER_PATH_AIRFLOW="{VIRTUAL_PATH_TO_FOLDER_CONTAINING_THE_JSON_FILES_GENERATED_FROM_SCRAPING}"
+DATA_FOLDER_PATH_LOCAL="{INSERT_LOCAL_PATH_TO_FOLDER_CONTAINING_THE_JSON_FILES_GENERATED_FROM_SCRAPING}"
+DATA_FOLDER_PATH_AIRFLOW="{INSERT_VIRTUAL_PATH_TO_FOLDER_CONTAINING_THE_JSON_FILES_GENERATED_FROM_SCRAPING}"
 ```
 The local path can look something like this:
 ```"I:\scraping_gigs\python_scrapy_airflow_project\homzmart_scraping\data"```
@@ -79,9 +79,13 @@ The virtual path is **ONLY required for the Airflow step**, so you can skip it y
 
 Note that I used forwardslashes here because the Airflow container is usually created in a Linux environment. Also, keep in mind that the ending of both paths are the **same**. You are simply **cloning** the data folder on your local computer to the Airflow environment. If you want more elaboration on this step, please check out my [guide](https://github.com/omar-elmaria/airflow_installation_instructions) on how to **install Airflow locally on your machine** and navigate to step 11 under section 1.
 
-**Step 9:** Delete the JSON files from the data folder to start on a clean slate
+**Step 9:** Add a new environment variable to ```PYTHONPATH``` pointing to the location of your ```python_scrapy_airflow_pipeline``` project folder.
 
-**Step 10:** Now, you are ready to scrape the website. The order of running the scripts should be as follows:
+![image](https://user-images.githubusercontent.com/98691360/193468732-428f0d19-a0b7-469d-bdbb-39ebbeca7b31.png)
+
+**Step 10:** Delete the JSON files from the data folder to start on a clean slate
+
+**Step 11:** Now, you are ready to scrape the website. The order of running the scripts should be as follows:
 - ```homzmart_home_page_spider.py```
 - ```homzmart_cat_page_spider.py```
 - ```homzmart_subcat_page_spider.py```
@@ -91,21 +95,54 @@ You can ignore the last two spiders ```homzmart_combine_jsons.py``` and ```homzm
 
 You can also ignore the ```test_crawlera.py``` and ```test_scraperapi.py```. These test scripts were created to play around with the most popular Proxy API services on the market, **Zyte Smart Proxy Manager (Formerly Crawlera)** and **ScraperAPI**
 
-**Step 11.1:** The output of the ```homzmart_home_page_spider.py``` script should look something like this
+**Step 12.1:** The output of the ```homzmart_home_page_spider.py``` script should look something like this
 
 ![image](https://user-images.githubusercontent.com/98691360/193467592-0a54c4b5-4b4e-4293-b3d4-03228509de19.png)
 
-**Step 11.2:** The output of the ```homzmart_cat_page_spider.py``` script should look something like this. Please note that the screenshot is truncated to preserve space
+**Step 12.2:** The output of the ```homzmart_cat_page_spider.py``` script should look something like this. Please note that the screenshot is truncated to preserve space
 
 ![image](https://user-images.githubusercontent.com/98691360/193467614-a351c680-23b0-4685-b880-ba1c41e435c3.png)
 
-**Step 11.3:** The output of the ```homzmart_subcat_page_spider.py``` script should look something like this. Please note that the screenshot is truncated to preserve space
+**Step 12.3:** The output of the ```homzmart_subcat_page_spider.py``` script should look something like this. Please note that the screenshot is truncated to preserve space
 
 ![image](https://user-images.githubusercontent.com/98691360/193467661-c3e5fc04-d605-48d6-aeb2-33d42f777d15.png)
 
-**Step 11.4:** The output of the ```homzmart_prod_page_spider.py``` script should look something like this. Please note that the screenshot is truncated to preserve space
+**Step 12.4:** The output of the ```homzmart_prod_page_spider.py``` script should look something like this. Please note that the screenshot is truncated to preserve space
 
 ![image](https://user-images.githubusercontent.com/98691360/193467675-ea1df684-076a-4a3d-b888-dc0bb85670d6.png)
 
 **N.B.** I purposely adjusted the script to only scrape a small portion of the website because the website has **more than 60,000 pages** and the entire process takes **several hours to complete**. The entire script should run in under 5 minutes.
 
+## 2.2 Building a pipeline from the Scrapy Spiders
+The pre-requisite to this section is installing Airflow on your local machine. Please follow the steps explained in **section #1** of my other [guide](https://github.com/omar-elmaria/airflow_installation_instructions) excluding **step 7** and come back to this part once you're done.
+
+- After installing Airflow, you will need to add the following commands to a ```Dockerfile```:
+```
+FROM apache/airflow:2.3.4
+# Install the libraries required for scraping
+RUN pip3 install scrapy scrapy-playwright pyairtable scrapy-proxy-pool scrapy-user-agents scraperapi-sdk python-dotenv pandas numpy
+# Install the playwright headless browsers
+RUN playwright install
+# Add a default path
+ENV PYTHONPATH="$PYTHONPATH:/opt/airflow/python_scrapy_airflow_pipeline"
+```
+
+- You will also need to add the following parameters to the **.env file** within the Airflow directory if you haven't already. Note that this might be different from the .env file you used in the first part.
+```
+AIRFLOW_IMAGE_NAME=apache/airflow:2.3.4
+AIRFLOW_UID=50000
+AIRFLOW__SMTP__SMTP_PASSWORD={GOOGLE_PASSWORD_WITHOUT_THE_CURLY_BRACES}
+```
+  To generate the ```GOOGLE_PASSWORD``` and be able to send emails via Airflow, please follow the steps in this [guide](https://naiveskill.com/send-email-from-airflow/)
+
+  It is generally recommended to have one external directory to host the DAGs from **all of your projects**. I call it airflow-local and it looks something like this
+
+  ![image](https://user-images.githubusercontent.com/98691360/193469052-46ba942e-3e83-4d23-aca4-c78dfd17f139.png)
+
+- Finally, you will need to add a **new volume** to the docker-compose file under the ```volumes:``` section like this
+```- {INSERT_LOCAL_PATH_TO_PYTHON_SCRAPY_AIRFLOW_PIPELINE_PROJECT_FOLDER_WITHOUT_CURLY_BRACES}:/opt/airflow/python_scrapy_airflow_pipeline```
+
+
+
+# 3. Questions?
+If you have any questions or wish to build a scraper for a particular use case, feel free to contact me on [LinkedIn](https://www.linkedin.com/in/omar-elmaria/)
